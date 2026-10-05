@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Advanced Web GIS Dashboard | James Hosiwa</title>
+  <title>Mashonaland East GIS Dashboard | James Hosiwa</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -21,7 +21,7 @@
       </div>
       <div class="brand-title">
         <h1>GeoSpatial Intelligence</h1>
-        <span>Earth Observation Platform</span>
+        <span>Mashonaland East Vegetation Density Engine</span>
       </div>
     </div>
 
@@ -33,8 +33,8 @@
 
     <div class="header-stats">
       <div class="stat-badge">
-        <span class="stat-label">Active Monitoring</span>
-        <span class="stat-value">4 Parcels</span>
+        <span class="stat-label">Monitored Zones</span>
+        <span class="stat-value">4 Sector Blocks</span>
       </div>
     </div>
   </header>
@@ -60,39 +60,45 @@
 
   <script>
     // 1. Initialize Map
-    const map = L.map('map', { zoomControl: false }).setView([-18.225, 32.128], 14);
+    const map = L.map('map', { zoomControl: false }).setView([-18.225, 32.128], 13);
 
     L.control.zoom({ position: 'topright' }).addTo(map);
 
-    // 2. Free No-API-Key Basemaps (Esri)
-    const darkCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
-      attribution: 'Tiles &copy; Esri',
-      maxZoom: 16
+    // 2. Basemaps (Defaulting to detailed OpenStreetMap)
+    const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19
     }).addTo(map);
 
     const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       attribution: 'Tiles &copy; Esri &mdash; Earthstar Geographics'
     });
 
+    const darkCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri',
+      maxZoom: 16
+    });
+
     L.control.layers({
-      "Dark Canvas": darkCanvas,
-      "Satellite Imagery": satellite
+      "OpenStreetMap (Default)": osm,
+      "Satellite Imagery": satellite,
+      "Dark Canvas": darkCanvas
     }, null, { position: 'topright' }).addTo(map);
 
-    // 3. Continuous Red-Yellow-Green Color Ramp Function
-    function getRedYellowGreenColor(val) {
-      if (val < 0.35) return '#ef4444'; // Red (Severe Stress)
+    // 3. Continuous Red-Yellow-Green Density Ramp Function
+    function getVegDensityColor(val) {
+      if (val < 0.35) return '#ef4444'; // Red (Low Density / Stressed)
       if (val < 0.50) return '#f97316'; // Orange-Red
-      if (val < 0.65) return '#eab308'; // Yellow (Moderate)
+      if (val < 0.65) return '#eab308'; // Yellow (Moderate Density)
       if (val < 0.80) return '#84cc16'; // Yellow-Green
-      return '#10b981';                // Emerald Green (Optimal)
+      return '#10b981';                // Emerald Green (High Density Canopy)
     }
 
-    // 4. Feature Dynamic Styling
+    // 4. Polygon Styling
     function styleFeature(feature) {
       const ndvi = feature.properties.ndvi_val;
       return {
-        fillColor: getRedYellowGreenColor(ndvi),
+        fillColor: getVegDensityColor(ndvi),
         weight: 2,
         opacity: 0.9,
         color: '#ffffff',
@@ -100,12 +106,12 @@
       };
     }
 
-    // 5. Dynamic Hover Effects
+    // 5. Interactive Hover Effects
     function highlightFeature(e) {
       const layer = e.target;
       layer.setStyle({
         weight: 4,
-        color: '#38bdf8',
+        color: '#0284c7',
         fillOpacity: 0.85
       });
       layer.bringToFront();
@@ -115,7 +121,7 @@
       geojsonLayer.resetStyle(e.target);
     }
 
-    // 6. Fetch GeoJSON Data & Render Map
+    // 6. Fetch GeoJSON & Render Spatial Layer
     fetch('./spatialdata.geojson')
       .then(res => res.json())
       .then(data => {
@@ -126,14 +132,15 @@
           onEachFeature: function (feature, layer) {
             const p = feature.properties;
 
-            // Hover Tooltip
+            // Interactive Tooltip
             layer.bindTooltip(`
-              <strong>${p.id} (${p.crop})</strong><br/>
+              <strong>${p.id}</strong><br/>
+              District: <b>${p.district}</b><br/>
+              Crop Type: <b>${p.crop}</b><br/>
               NDVI Index: <b>${p.ndvi_val}</b><br/>
-              Status: <span style="color:${getRedYellowGreenColor(p.ndvi_val)}">● ${p.health_status}</span>
+              Density: <span style="color:${getVegDensityColor(p.ndvi_val)}">● ${p.density_label}</span>
             `, { className: 'custom-tooltip', sticky: true });
 
-            // Interactive Events
             layer.on({
               mouseover: highlightFeature,
               mouseout: (e) => resetHighlight(e, geojsonLayer)
@@ -144,19 +151,19 @@
         map.fitBounds(geojsonLayer.getBounds(), { padding: [80, 80] });
       });
 
-    // 7. Render Continuous Legend Component
+    // 7. Vegetation Continuous Legend
     const legend = L.control({ position: 'bottomleft' });
 
     legend.onAdd = function () {
       const div = L.DomUtil.create('div', 'gis-legend');
       div.innerHTML = `
-        <h3>Vegetation Index (NDVI)</h3>
+        <h3>Vegetation Density (NDVI)</h3>
         <div class="ramp-container">
           <div class="color-bar"></div>
           <div class="ramp-labels">
-            <span><b>0.8 - 1.0</b> High / Healthy</span>
-            <span><b>0.5 - 0.7</b> Moderate</span>
-            <span><b>0.0 - 0.4</b> Severe Stress</span>
+            <span><b>0.8 - 1.0</b> Dense Canopy</span>
+            <span><b>0.5 - 0.7</b> Moderate Cover</span>
+            <span><b>0.0 - 0.4</b> Sparse / Stressed</span>
           </div>
         </div>
       `;
