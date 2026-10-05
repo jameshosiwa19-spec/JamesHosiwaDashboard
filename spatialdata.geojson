@@ -1,0 +1,81 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Zone-101",
+        "crop": "Maize",
+        "health_status": "Severe Stress",
+        "ndvi_val": 0.22
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [32.120, -18.220],
+          [32.128, -18.220],
+          [32.128, -18.228],
+          [32.120, -18.228],
+          [32.120, -18.220]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Zone-102",
+        "crop": "Tobacco",
+        "health_status": "Moderate Deficit",
+        "ndvi_val": 0.48
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [32.130, -18.220],
+          [32.138, -18.220],
+          [32.138, -18.228],
+          [32.130, -18.228],
+          [32.130, -18.220]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Zone-103",
+        "crop": "Soybeans",
+        "health_status": "Optimal Vigour",
+        "ndvi_val": 0.85
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [32.120, -18.230],
+          [32.128, -18.230],
+          [32.128, -18.238],
+          [32.120, -18.238],
+          [32.120, -18.230]
+        ]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "Zone-104",
+        "crop": "Wheat",
+        "health_status": "Slight Stress",
+        "ndvi_val": 0.62
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [32.130, -18.230],
+          [32.138, -18.230],
+          [32.138, -18.238],
+          [32.130, -18.238],
+          [32.130, -18.230]
+        ]]
+      }
+    }
+  ]
+}

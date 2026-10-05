@@ -1,0 +1,228 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+  background-color: #0b0f19;
+}
+
+#map {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* Adjust Leaflet Controls below header */
+.leaflet-top {
+  top: 75px !important;
+}
+
+.leaflet-bottom {
+  bottom: 45px !important;
+}
+
+/* Top Navigation Bar Header */
+.app-header {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  height: 56px;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-logo {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #0284c7, #0ea5e9);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 18px;
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.4);
+}
+
+.brand-title h1 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #f8fafc;
+  line-height: 1.1;
+}
+
+.brand-title span {
+  font-size: 11px;
+  color: #38bdf8;
+  letter-spacing: 0.5px;
+}
+
+.header-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nav-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #f8fafc;
+}
+
+.nav-btn.active {
+  background: rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+}
+
+.header-stats {
+  display: flex;
+  align-items: center;
+}
+
+.stat-badge {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.stat-value {
+  font-size: 11px;
+  font-weight: 700;
+  color: #10b981;
+}
+
+/* Glassmorphism Footer */
+.app-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  z-index: 1000;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.status-dot {
+  color: #10b981;
+  font-size: 9px;
+  margin-right: 4px;
+}
+
+.footer-center {
+  color: #94a3b8;
+}
+
+.footer-right strong {
+  color: #38bdf8;
+}
+
+/* GIS Legend Glassmorphism */
+.gis-legend {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  padding: 14px;
+  color: #e2e8f0;
+  width: 210px;
+}
+
+.gis-legend h3 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #38bdf8;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.ramp-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.color-bar {
+  width: 16px;
+  height: 120px;
+  border-radius: 6px;
+  background: linear-gradient(to bottom, #10b981 0%, #eab308 50%, #ef4444 100%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ramp-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 120px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #94a3b8;
+}
+
+/* Custom Interactive Tooltip */
+.custom-tooltip {
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(56, 189, 248, 0.4) !important;
+  color: #f8fafc !important;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5) !important;
+  font-size: 12px !important;
+}

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Web GIS Dashboard | James Hosiwa</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="app-header">
+    <div class="header-brand">
+      <div class="brand-logo">
+        <i class="fa-solid fa-earth-africa"></i>
+      </div>
+      <div class="brand-title">
+        <h1>GeoSpatial Intelligence</h1>
+        <span>Earth Observation Platform</span>
+      </div>
+    </div>
+
+    <nav class="header-nav">
+      <button class="nav-btn active"><i class="fa-solid fa-layer-group"></i> Layer Control</button>
+      <button class="nav-btn"><i class="fa-solid fa-chart-line"></i> Analytics</button>
+      <button class="nav-btn"><i class="fa-solid fa-satellite"></i> Satellite Feed</button>
+    </nav>
+
+    <div class="header-stats">
+      <div class="stat-badge">
+        <span class="stat-label">Active Monitoring</span>
+        <span class="stat-value">4 Parcels</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Map Container -->
+  <div id="map"></div>
+
+  <!-- Glassmorphism Footer -->
+  <footer class="app-footer">
+    <div class="footer-left">
+      <span><i class="fa-solid fa-circle-check status-dot"></i> Live GIS Engine Connected</span>
+    </div>
+    <div class="footer-center">
+      <span>Precision Agriculture & Spatial Analytics Workspace</span>
+    </div>
+    <div class="footer-right">
+      <span>Developed by <strong>James Hosiwa</strong> &copy; 2026</span>
+    </div>
+  </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <script>
+    // 1. Initialize Map
+    const map = L.map('map', { zoomControl: false }).setView([-18.225, 32.128], 14);
+
+    L.control.zoom({ position: 'topright' }).addTo(map);
+
+    // 2. Free No-API-Key Basemaps (Esri)
+    const darkCanvas = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri',
+      maxZoom: 16
+    }).addTo(map);
+
+    const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles &copy; Esri &mdash; Earthstar Geographics'
+    });
+
+    L.control.layers({
+      "Dark Canvas": darkCanvas,
+      "Satellite Imagery": satellite
+    }, null, { position: 'topright' }).addTo(map);
+
+    // 3. Continuous Red-Yellow-Green Color Ramp Function
+    function getRedYellowGreenColor(val) {
+      if (val < 0.35) return '#ef4444'; // Red (Severe Stress)
+      if (val < 0.50) return '#f97316'; // Orange-Red
+      if (val < 0.65) return '#eab308'; // Yellow (Moderate)
+      if (val < 0.80) return '#84cc16'; // Yellow-Green
+      return '#10b981';                // Emerald Green (Optimal)
+    }
+
+    // 4. Feature Dynamic Styling
+    function styleFeature(feature) {
+      const ndvi = feature.properties.ndvi_val;
+      return {
+        fillColor: getRedYellowGreenColor(ndvi),
+        weight: 2,
+        opacity: 0.9,
+        color: '#ffffff',
+        fillOpacity: 0.65
+      };
+    }
+
+    // 5. Dynamic Hover Effects
+    function highlightFeature(e) {
+      const layer = e.target;
+      layer.setStyle({
+        weight: 4,
+        color: '#38bdf8',
+        fillOpacity: 0.85
+      });
+      layer.bringToFront();
+    }
+
+    function resetHighlight(e, geojsonLayer) {
+      geojsonLayer.resetStyle(e.target);
+    }
+
+    // 6. Fetch GeoJSON Data & Render Map
+    fetch('./spatialdata.geojson')
+      .then(res => res.json())
+      .then(data => {
+        let geojsonLayer;
+
+        geojsonLayer = L.geoJSON(data, {
+          style: styleFeature,
+          onEachFeature: function (feature, layer) {
+            const p = feature.properties;
+
+            // Hover Tooltip
+            layer.bindTooltip(`
+              <strong>${p.id} (${p.crop})</strong><br/>
+              NDVI Index: <b>${p.ndvi_val}</b><br/>
+              Status: <span style="color:${getRedYellowGreenColor(p.ndvi_val)}">● ${p.health_status}</span>
+            `, { className: 'custom-tooltip', sticky: true });
+
+            // Interactive Events
+            layer.on({
+              mouseover: highlightFeature,
+              mouseout: (e) => resetHighlight(e, geojsonLayer)
+            });
+          }
+        }).addTo(map);
+
+        map.fitBounds(geojsonLayer.getBounds(), { padding: [80, 80] });
+      });
+
+    // 7. Render Continuous Legend Component
+    const legend = L.control({ position: 'bottomleft' });
+
+    legend.onAdd = function () {
+      const div = L.DomUtil.create('div', 'gis-legend');
+      div.innerHTML = `
+        <h3>Vegetation Index (NDVI)</h3>
+        <div class="ramp-container">
+          <div class="color-bar"></div>
+          <div class="ramp-labels">
+            <span><b>0.8 - 1.0</b> High / Healthy</span>
+            <span><b>0.5 - 0.7</b> Moderate</span>
+            <span><b>0.0 - 0.4</b> Severe Stress</span>
+          </div>
+        </div>
+      `;
+      return div;
+    };
+
+    legend.addTo(map);
+  </script>
+</body>
+</html>
