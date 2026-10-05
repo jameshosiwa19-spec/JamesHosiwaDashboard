@@ -4,82 +4,148 @@
     {
       "type": "Feature",
       "properties": {
-        "id": "MashEast-Block-01",
-        "district": "Marondera / Headlands Corridor",
-        "crop": "Maize",
-        "density_label": "Sparse / Low Density",
-        "ndvi_val": 0.24
+        "farm_id": "ZW-ME-001",
+        "farm_name": "Macheke Commercial Estate",
+        "owner": "Macheke Farming Syndicate",
+        "province": "Mashonaland East",
+        "district": "Macheke / Marondera",
+        "size_ha": 450,
+        "type": "Commercial Agriculture",
+        "primary_crops": ["Tobacco", "Maize", "Wheat"],
+        "livestock": "Beef Cattle (Angus)",
+        "operations": "Irrigated cropping, seed propagation, cold-chain storage & export grading.",
+        "irrigation_type": "Center Pivot & Drip System",
+        "status": "Active / Fully Operational"
       },
       "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-          [32.1150, -18.2180],
-          [32.1240, -18.2160],
-          [32.1260, -18.2240],
-          [32.1180, -18.2270],
-          [32.1130, -18.2210],
-          [32.1150, -18.2180]
-        ]]
+        "type": "Point",
+        "coordinates": [31.8500, -18.1500]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "id": "MashEast-Block-02",
-        "district": "Macheke Farming Zone",
-        "crop": "Tobacco",
-        "density_label": "Moderate Density",
-        "ndvi_val": 0.52
+        "farm_id": "ZW-ME-002",
+        "farm_name": "Headlands Agritech Hub",
+        "owner": "Headlands Co-Op",
+        "province": "Mashonaland East",
+        "district": "Headlands",
+        "size_ha": 620,
+        "type": "Precision Agronomy Center",
+        "primary_crops": ["Soybeans", "Seed Maize", "Barley"],
+        "livestock": "None",
+        "operations": "Variable rate fertilization trials, automated soil moisture tracking, drone sensing.",
+        "irrigation_type": "Linear Move Pivots",
+        "status": "Active / Fully Operational"
       },
       "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-          [32.1270, -18.2170],
-          [32.1370, -18.2190],
-          [32.1390, -18.2270],
-          [32.1280, -18.2260],
-          [32.1270, -18.2170]
-        ]]
+        "type": "Point",
+        "coordinates": [32.1280, -18.2250]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "id": "MashEast-Block-03",
-        "district": "Marondera South Scheme",
-        "crop": "Soybeans",
-        "density_label": "Dense Canopy Cover",
-        "ndvi_val": 0.86
+        "farm_id": "ZW-MW-003",
+        "farm_name": "Banket Grain & Seed Basin",
+        "owner": "Banket Agricultural Trust",
+        "province": "Mashonaland West",
+        "district": "Zvimba / Banket",
+        "size_ha": 800,
+        "type": "Commercial Cropping",
+        "primary_crops": ["White Maize", "Wheat", "Sunflower"],
+        "livestock": "Dairy Herd",
+        "operations": "Large-scale mechanised harvesting, silo storage & seed distribution.",
+        "irrigation_type": "Dam-fed Overhead Sprinklers",
+        "status": "Active / Fully Operational"
       },
       "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-          [32.1120, -18.2290],
-          [32.1210, -18.2300],
-          [32.1190, -18.2390],
-          [32.1100, -18.2370],
-          [32.1120, -18.2290]
-        ]]
+        "type": "Point",
+        "coordinates": [30.4000, -17.3800]
       }
     },
     {
       "type": "Feature",
       "properties": {
-        "id": "MashEast-Block-04",
-        "district": "Headlands Pivot Zone",
-        "crop": "Irrigated Wheat",
-        "density_label": "High Biomass Density",
-        "ndvi_val": 0.72
+        "farm_id": "ZW-MC-004",
+        "farm_name": "Mazowe Citrus & Horticulture",
+        "owner": "Mazowe Estates",
+        "province": "Mashonaland Central",
+        "district": "Mazowe",
+        "size_ha": 1200,
+        "type": "Horticulture & Orchards",
+        "primary_crops": ["Oranges", "Lemons", "Blueberries", "Avocados"],
+        "livestock": "None",
+        "operations": "Citrus extraction, fresh fruit sorting, greenhouse drip fertigation.",
+        "irrigation_type": "Micro-drip & Micro-jet",
+        "status": "Active / Fully Operational"
       },
       "geometry": {
-        "type": "Polygon",
-        "coordinates": [[
-          [32.1230, -18.2310],
-          [32.1340, -18.2320],
-          [32.1350, -18.2400],
-          [32.1220, -18.2380],
-          [32.1230, -18.2310]
-        ]]
+        "type": "Point",
+        "coordinates": [30.9700, -17.5200]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "farm_id": "ZW-MAN-005",
+        "farm_name": "Chipinge High-altitude Plantation",
+        "owner": "Eastern Highlands Agri",
+        "province": "Manicaland",
+        "district": "Chipinge",
+        "size_ha": 950,
+        "type": "Plantation & Macadamia",
+        "primary_crops": ["Macadamia Nuts", "Coffee", "Tea"],
+        "livestock": "None",
+        "operations": "Nut husking, solar drying, coffee processing & international shipping.",
+        "irrigation_type": "Rainfed & Micro-sprinkler",
+        "status": "Active / Fully Operational"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.6200, -20.2000]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "farm_id": "ZW-MID-006",
+        "farm_name": "Kwekwe Livestock & Rangeland",
+        "owner": "Midlands Pastoral Ltd",
+        "province": "Midlands",
+        "district": "Kwekwe",
+        "size_ha": 2100,
+        "type": "Livestock Ranching",
+        "primary_crops": ["Sorghum (Fodder)", "Rhodes Grass"],
+        "livestock": "Brahman & Mashona Cattle (1,400 Head)",
+        "operations": "Rotational grazing management, dip tank operations, stud breeding.",
+        "irrigation_type": "Borehole Stock Watering",
+        "status": "Active / Fully Operational"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.8100, -18.9200]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "farm_id": "ZW-MAS-007",
+        "farm_name": "Triangle Sugar Estates",
+        "owner": "Tongaat Hulett Zimbabwe",
+        "province": "Masvingo",
+        "district": "Chiredzi / Lowveld",
+        "size_ha": 5000,
+        "type": "Irrigated Sugarcane",
+        "primary_crops": ["Sugarcane"],
+        "livestock": "None",
+        "operations": "Cane harvesting, sugar milling, ethanol distillation, power co-generation.",
+        "irrigation_type": "Canal-fed Gravity & Pivot System",
+        "status": "Active / Fully Operational"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.4500, -21.0200]
       }
     }
   ]
